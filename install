@@ -73,7 +73,10 @@ backup_tmux () {
 ## Setup OMZ
 setup_omz () {
 	{ echo ${ORANGE}" [*] Cloning oh-my-zsh framework..."; echo ${CYAN}; }
-	git clone --depth 1 git://github.com/robbyrussell/oh-my-zsh.git $HOME/.oh-my-zsh
+	git clone --depth 1 https://github.com/robbyrussell/oh-my-zsh.git $HOME/.oh-my-zsh
+	git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+	git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions.git $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+	
 	[[ -d $HOME/.oh-my-zsh ]] && { echo; echo ${GREEN}" [*] Succesfully Cloned!"; echo; } || { echo; echo ${RED}" [!] Error Occured, failed to clone OMZ."; echo; reset_color; exit 1; }
 	{ echo ${ORANGE}" [*] Setting up configurations..."; echo; }
 	cp $HOME/.oh-my-zsh/templates/zshrc.zsh-template $HOME/.zshrc
@@ -81,7 +84,8 @@ setup_omz () {
 	chsh -s zsh
 	{ echo ${ORANGE}" [*] Applying color-scheme, font & zsh theme..."; echo; }
 	{ cp $DIR/.files/colors.properties $HOME/.termux/colors.properties; cp $DIR/.files/font.ttf $HOME/.termux/font.ttf; }
-	sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="agnoster"/g' $HOME/.zshrc
+	sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="ys"/g' $HOME/.zshrc
+	sed -i 's/plugins=(git)/plugins=(git\ sudo\ zsh-syntax-highlighting\ zsh-autosuggestions)/g' $HOME/.zshrc
 	{ termux-setup-storage; termux-reload-settings; }
 	{ echo ${GREEN}" [*] Setup completed. Enjoy oh-my-zsh in Termux."; echo; }
 	{ reset_color; exit; }
